@@ -1,3 +1,5 @@
 .gradle/*
 .idea/*
 build/*
+Web Quiz Engine with Java/task/out/*
+Web Quiz Engine with Java/task/build/*
