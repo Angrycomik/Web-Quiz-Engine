@@ -1,8 +1,5 @@
 package engine.controller;
 
-import engine.converter.converters;
-import engine.dto.QuizGetDTO;
-import engine.dto.QuizPostDTO;
 import engine.entity.Answer;
 import engine.entity.Quiz;
 import engine.service.QuizService;
@@ -23,16 +20,12 @@ public class QuizController {
     QuizService quizService;
 
     @GetMapping("/{id}")
-    public QuizGetDTO getQuiz(@PathVariable Long id) {
-        QuizGetDTO quiz = quizService.getQuizDTO(id);
-        if(quiz == null){
-            throw new NoSuchElementException();
-        }
-        return quiz;
+    public Quiz getQuiz(@PathVariable Long id) {
+        return quizService.getQuiz(id);
 
     }
     @GetMapping
-    public List<QuizGetDTO> getQuizzes(){
+    public List<Quiz> getQuizzes(){
         return quizService.getAllQuizes();
     }
 
@@ -43,13 +36,11 @@ public class QuizController {
 
         boolean isCorrect = answer == quiz.getAnswer();
 
-        String feedback = isCorrect ? "Congratulations, you're right!" : "Wrong answer! Please, try again.";
-        return new Answer(isCorrect, feedback);
+        return new Answer(isCorrect);
     }
 
     @PostMapping
-    public QuizGetDTO receiveQuiz(@RequestBody QuizPostDTO quizPostDTO) {
-        Quiz quiz = quizService.saveQuiz(quizPostDTO);
-        return converters.convertQuizToQuizGetDTO(quiz);
+    public Quiz receiveQuiz(@RequestBody Quiz quiz) {
+        return quizService.saveQuiz(quiz);
     }
 }

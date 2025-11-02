@@ -1,9 +1,7 @@
 package engine.entity;
 
-import jakarta.annotation.Generated;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-
-import java.io.Serial;
 import java.util.List;
 
 @Entity
@@ -16,6 +14,7 @@ public class Quiz {
 
     @ElementCollection(fetch = FetchType.EAGER)
     List<String> options;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Integer answer;
 
     public Quiz(String title, String text, List<String> options, Integer answer) {
@@ -26,7 +25,6 @@ public class Quiz {
     }
 
     public Quiz() {
-
     }
 
     public Long getId() {
