@@ -2,6 +2,10 @@ package engine.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 
 @Entity
@@ -9,15 +13,22 @@ public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
+    @NotBlank
     String title;
+
+    @NotBlank
     String text;
 
+    @NotNull
+    @Size(min = 2)
     @ElementCollection(fetch = FetchType.EAGER)
     List<String> options;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    Integer answer;
 
-    public Quiz(String title, String text, List<String> options, Integer answer) {
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    List<Integer> answer;
+
+    public Quiz(String title, String text, List<String> options, List<Integer> answer) {
         this.title = title;
         this.text = text;
         this.options = options;
@@ -59,11 +70,11 @@ public class Quiz {
         this.title = title;
     }
 
-    public Integer getAnswer() {
+    public List<Integer> getAnswer() {
         return answer;
     }
 
-    public void setAnswer(Integer answer) {
+    public void setAnswer(List<Integer> answer) {
         this.answer = answer;
     }
 }

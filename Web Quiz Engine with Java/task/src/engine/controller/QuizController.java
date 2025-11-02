@@ -1,13 +1,18 @@
 package engine.controller;
 
+import engine.dto.AcceptAnswerDTO;
 import engine.entity.Answer;
 import engine.entity.Quiz;
 import engine.service.QuizService;
+import engine.utils.Utils;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -30,17 +35,17 @@ public class QuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public Answer acceptAnswer(@PathVariable Long id, @RequestParam int answer) {
-        logger.info("accepting answer " + answer + " for quiz id " + id);
+    public Answer acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto) {
+        logger.info("accepting answer " +  dto.toString() + " for quiz id " + id);
         Quiz quiz = quizService.getQuiz(id);
 
-        boolean isCorrect = answer == quiz.getAnswer();
+        boolean isCorrect =  Utils.checkAnswer(quiz.getAnswer(), dto.answer());
 
         return new Answer(isCorrect);
     }
 
     @PostMapping
-    public Quiz receiveQuiz(@RequestBody Quiz quiz) {
+    public Quiz receiveQuiz(@Valid @RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
     }
 }

@@ -32,6 +32,7 @@ public class QuizService {
     public List<Quiz> getAllQuizes(){
         return repository.findAll();
     }
+
     public Quiz saveQuiz(Quiz quiz){
         logger.info("Saving Quiz: " + quiz.toString());
         return repository.save(quiz);

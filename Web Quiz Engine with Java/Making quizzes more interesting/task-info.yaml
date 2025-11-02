@@ -12,6 +12,39 @@ files:
   - name: test/tests/WebQuizEngineTest.java
     visible: false
     learner_created: false
+  - name: src/engine/dto/QuizPostDTO.java
+    visible: true
+    learner_created: true
+  - name: src/engine/entity/Answer.java
+    visible: true
+    learner_created: true
+  - name: src/engine/service/QuizService.java
+    visible: true
+    learner_created: true
+  - name: src/engine/controller/QuizExceptionHandler.java
+    visible: true
+    learner_created: true
+  - name: src/engine/repository/QuizRepo.java
+    visible: true
+    learner_created: true
+  - name: src/engine/entity/Quiz.java
+    visible: true
+    learner_created: true
+  - name: src/engine/dto/Quiz.java
+    visible: true
+    learner_created: true
+  - name: src/engine/controller/QuizController.java
+    visible: true
+    learner_created: true
+  - name: src/engine/dto/AcceptAnswerDTO.java
+    visible: true
+    learner_created: true
+  - name: src/engine/utils/Utils.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/506/implement#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Sun, 02 Nov 2025 17:01:59 UTC"
 record: -1
