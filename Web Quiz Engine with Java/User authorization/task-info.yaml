@@ -12,6 +12,58 @@ files:
   - name: test/tests/WebQuizEngineTest.java
     visible: false
     learner_created: false
+  - name: src/engine/entity/Answer.java
+    visible: true
+    learner_created: true
+  - name: src/engine/service/QuizService.java
+    visible: true
+    learner_created: true
+  - name: src/engine/util/Utils.java
+    visible: true
+    learner_created: true
+  - name: src/engine/controller/QuizExceptionHandler.java
+    visible: true
+    learner_created: true
+  - name: src/engine/repository/QuizRepo.java
+    visible: true
+    learner_created: true
+  - name: src/engine/dto/AcceptAnswerDTO.java
+    visible: true
+    learner_created: true
+  - name: src/engine/entity/Quiz.java
+    visible: true
+    learner_created: true
+  - name: src/engine/controller/QuizController.java
+    visible: true
+    learner_created: true
+  - name: src/engine/controller/UserController.java
+    visible: true
+    learner_created: true
+  - name: src/engine/configuration/SecurityConfig.java
+    visible: true
+    learner_created: true
+  - name: src/engine/repository/AppUserRepository.java
+    visible: true
+    learner_created: true
+  - name: src/engine/service/UserService.java
+    visible: true
+    learner_created: true
+  - name: src/engine/adapter/AppUserAdapter.java
+    visible: true
+    learner_created: true
+  - name: src/engine/entity/AppUser.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/508/implement#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Wrong answer in test #153
+
+    DELETE /api/quizzes/1 should respond with status code 204, responded: 405
+
+    Response body:
+
+    {&quot;timestamp&quot;:&quot;2025-11-02T23:58:02.900+00:00&quot;,&quot;status&quot;:405,&quot;error&quot;:&quot;Method Not Allowed&quot;,&quot;path&quot;:&quot;/api/quizzes/1&quot;}
+  time: "Sun, 02 Nov 2025 23:58:03 UTC"
 record: -1
