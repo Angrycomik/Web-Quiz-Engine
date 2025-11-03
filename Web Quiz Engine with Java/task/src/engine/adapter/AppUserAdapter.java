@@ -48,4 +48,8 @@ public class AppUserAdapter implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public AppUser getUser() {
+        return user;
+    }
 }

@@ -12,9 +12,6 @@ files:
   - name: test/tests/WebQuizEngineTest.java
     visible: false
     learner_created: false
-  - name: src/engine/dto/QuizPostDTO.java
-    visible: true
-    learner_created: true
   - name: src/engine/entity/Answer.java
     visible: true
     learner_created: true
@@ -28,9 +25,6 @@ files:
     visible: true
     learner_created: true
   - name: src/engine/entity/Quiz.java
-    visible: true
-    learner_created: true
-  - name: src/engine/dto/Quiz.java
     visible: true
     learner_created: true
   - name: src/engine/controller/QuizController.java

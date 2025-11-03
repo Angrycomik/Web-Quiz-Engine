@@ -1,7 +1,10 @@
 package engine.controller;
 
+import engine.adapter.AppUserAdapter;
 import engine.dto.AcceptAnswerDTO;
+import engine.dto.QuizCompletionDTO;
 import engine.entity.Answer;
+import engine.entity.AppUser;
 import engine.entity.Quiz;
 import engine.service.QuizService;
 import engine.util.Utils;
@@ -9,7 +12,11 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,27 +26,32 @@ import java.util.List;
 public class QuizController {
     Logger logger = LoggerFactory.getLogger(QuizController.class);
 
-    @Autowired
     QuizService quizService;
+
+    public QuizController(@Autowired QuizService quizService) {
+        this.quizService = quizService;
+    }
 
     @GetMapping("/{id}")
     public Quiz getQuiz(@PathVariable Long id) {
         return quizService.getQuiz(id);
 
     }
-    @GetMapping
-    public List<Quiz> getQuizzes(){
-        return quizService.getAllQuizes();
+    @GetMapping()
+    public Page<Quiz> getQuizzes(@RequestParam(defaultValue = "0") int page){
+        logger.info("Getting page {}", page);
+        return quizService.getAllQuizes(page);
+    }
+
+    @GetMapping("/completed")
+    public Page<QuizCompletionDTO> getCompletedQuizzes(@RequestParam int page, @AuthenticationPrincipal AppUserAdapter user){
+        return quizService.getCompletedQuizzes(page, user.getUser());
     }
 
     @PostMapping("/{id}/solve")
-    public Answer acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto) {
+    public Answer acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
         logger.info("accepting answer " +  dto.toString() + " for quiz id " + id);
-        Quiz quiz = quizService.getQuiz(id);
-
-        boolean isCorrect =  Utils.checkAnswer(quiz.getAnswer(), dto.answer());
-
-        return new Answer(isCorrect);
+        return quizService.solveQuiz(id, dto.answer(), user.getUser());
     }
 
     @PostMapping

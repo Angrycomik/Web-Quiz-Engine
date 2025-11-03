@@ -31,6 +31,10 @@ public class Quiz {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String madeBy;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuizCompletion> completions;
+
     public String getMadeBy() {
         return madeBy;
     }
@@ -87,5 +91,13 @@ public class Quiz {
 
     public void setAnswer(List<Integer> answer) {
         this.answer = answer;
+    }
+
+    public List<QuizCompletion> getCompletions() {
+        return completions;
+    }
+
+    public void setCompletions(List<QuizCompletion> completions) {
+        this.completions = completions;
     }
 }
