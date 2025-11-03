@@ -4,6 +4,8 @@ import engine.adapter.AppUserAdapter;
 import engine.entity.AppUser;
 import engine.repository.AppUserRepository;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,5 +35,9 @@ public class UserService implements UserDetailsService {
         if(repository.existsByEmail(user.getEmail())){throw new DuplicateKeyException("Username already exists");}
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
+    }
+    public static String getCurrentUsername(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
 }

@@ -54,16 +54,12 @@ files:
   - name: src/engine/entity/AppUser.java
     visible: true
     learner_created: true
+  - name: src/engine/exception/UnauthorizedException.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/projects/91/stages/508/implement#comment
-status: Failed
+status: Solved
 feedback:
-  message: |-
-    Wrong answer in test #153
-
-    DELETE /api/quizzes/1 should respond with status code 204, responded: 405
-
-    Response body:
-
-    {&quot;timestamp&quot;:&quot;2025-11-02T23:58:02.900+00:00&quot;,&quot;status&quot;:405,&quot;error&quot;:&quot;Method Not Allowed&quot;,&quot;path&quot;:&quot;/api/quizzes/1&quot;}
-  time: "Sun, 02 Nov 2025 23:58:03 UTC"
+  message: Congratulations!
+  time: "Mon, 03 Nov 2025 01:54:36 UTC"
 record: -1

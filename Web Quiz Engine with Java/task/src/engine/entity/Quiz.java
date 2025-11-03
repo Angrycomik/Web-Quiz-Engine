@@ -28,6 +28,17 @@ public class Quiz {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Integer> answer;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String madeBy;
+
+    public String getMadeBy() {
+        return madeBy;
+    }
+
+    public void setMadeBy(String madeBy) {
+        this.madeBy = madeBy;
+    }
+
     public Quiz(String title, String text, List<String> options, List<Integer> answer) {
         this.title = title;
         this.text = text;

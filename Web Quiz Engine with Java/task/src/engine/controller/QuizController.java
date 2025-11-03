@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,5 +45,13 @@ public class QuizController {
     @PostMapping
     public Quiz receiveQuiz(@Valid @RequestBody Quiz quiz) {
         return quizService.saveQuiz(quiz);
+    }
+
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String deleteQuiz(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
+        return "Deleted";
     }
 }
