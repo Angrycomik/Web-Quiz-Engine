@@ -1,7 +1,6 @@
 package engine.service;
 
 
-import engine.adapter.AppUserAdapter;
 import engine.dto.QuizCompletionDTO;
 import engine.entity.Answer;
 import engine.entity.AppUser;
@@ -9,7 +8,7 @@ import engine.entity.Quiz;
 import engine.entity.QuizCompletion;
 import engine.exception.UnauthorizedException;
 import engine.repository.QuizCompletionRepository;
-import engine.repository.QuizRepo;
+import engine.repository.QuizRepository;
 import engine.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,16 +27,16 @@ import java.util.Optional;
 public class QuizService {
     Logger logger = LoggerFactory.getLogger(QuizService.class);
 
-    QuizRepo quizRepo;
+    QuizRepository quizRepository;
     QuizCompletionRepository completionRepo;
 
-    public QuizService(@Autowired QuizRepo quizRepo, @Autowired QuizCompletionRepository completionRepo) {
-        this.quizRepo = quizRepo;
+    public QuizService(@Autowired QuizRepository quizRepository, @Autowired QuizCompletionRepository completionRepo) {
+        this.quizRepository = quizRepository;
         this.completionRepo = completionRepo;
     }
 
     public Quiz getQuiz(Long id){
-        Optional<Quiz> quiz = quizRepo.findById(id);
+        Optional<Quiz> quiz = quizRepository.findById(id);
         if(quiz.isPresent()){
             return quiz.get();
         }
@@ -46,7 +45,7 @@ public class QuizService {
 
     public Page<Quiz> getAllQuizes(int page){
         PageRequest pageRequest = PageRequest.of(page, 10);
-        return quizRepo.findAll(pageRequest);
+        return quizRepository.findAll(pageRequest);
     }
 
     public Page<QuizCompletionDTO> getCompletedQuizzes(int page, AppUser user) {
@@ -69,14 +68,14 @@ public class QuizService {
         logger.info("Saving Quiz: " + quiz.toString());
 
         quiz.setMadeBy(UserService.getCurrentUsername());
-        return quizRepo.save(quiz);
+        return quizRepository.save(quiz);
     }
 
     public void deleteQuiz(Long id) {
-        Optional<Quiz> quiz = quizRepo.findById(id);
+        Optional<Quiz> quiz = quizRepository.findById(id);
         if(quiz.isEmpty()){throw new NoSuchElementException();}
         if(quiz.get().getMadeBy().equals(UserService.getCurrentUsername())){
-            quizRepo.delete(quiz.get());
+            quizRepository.delete(quiz.get());
             return;
         }
         throw new UnauthorizedException("You are not allowed to delete this Quiz");

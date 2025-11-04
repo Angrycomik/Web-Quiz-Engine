@@ -4,10 +4,8 @@ import engine.adapter.AppUserAdapter;
 import engine.dto.AcceptAnswerDTO;
 import engine.dto.QuizCompletionDTO;
 import engine.entity.Answer;
-import engine.entity.AppUser;
 import engine.entity.Quiz;
 import engine.service.QuizService;
-import engine.util.Utils;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,11 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/quizzes")
@@ -50,7 +44,6 @@ public class QuizController {
 
     @PostMapping("/{id}/solve")
     public Answer acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
-        logger.info("accepting answer " +  dto.toString() + " for quiz id " + id);
         return quizService.solveQuiz(id, dto.answer(), user.getUser());
     }
 
