@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/quizzes")
 public class QuizController {
-    Logger logger = LoggerFactory.getLogger(QuizController.class);
-
     QuizService quizService;
 
     public QuizController(@Autowired QuizService quizService) {
@@ -33,7 +31,6 @@ public class QuizController {
     }
     @GetMapping()
     public Page<Quiz> getQuizzes(@RequestParam(defaultValue = "0") int page){
-        logger.info("Getting page {}", page);
         return quizService.getAllQuizes(page);
     }
 
@@ -43,12 +40,12 @@ public class QuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public AnswerDTO acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
+    public AnswerDTO solveQuiz(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
         return quizService.solveQuiz(id, dto.answer(), user.getUser());
     }
 
     @PostMapping
-    public Quiz receiveQuiz(@Valid @RequestBody Quiz quiz, @AuthenticationPrincipal AppUserAdapter user) {
+    public Quiz saveQuiz(@Valid @RequestBody Quiz quiz, @AuthenticationPrincipal AppUserAdapter user) {
         return quizService.saveQuiz(quiz, user.getUsername());
     }
 
