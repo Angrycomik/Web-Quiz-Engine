@@ -3,7 +3,7 @@ package engine.controller;
 import engine.adapter.AppUserAdapter;
 import engine.dto.AcceptAnswerDTO;
 import engine.dto.QuizCompletionDTO;
-import engine.entity.Answer;
+import engine.dto.AnswerDTO;
 import engine.entity.Quiz;
 import engine.service.QuizService;
 import jakarta.validation.Valid;
@@ -43,20 +43,19 @@ public class QuizController {
     }
 
     @PostMapping("/{id}/solve")
-    public Answer acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
+    public AnswerDTO acceptAnswer(@PathVariable Long id, @RequestBody AcceptAnswerDTO dto, @AuthenticationPrincipal AppUserAdapter user) {
         return quizService.solveQuiz(id, dto.answer(), user.getUser());
     }
 
     @PostMapping
-    public Quiz receiveQuiz(@Valid @RequestBody Quiz quiz) {
-        return quizService.saveQuiz(quiz);
+    public Quiz receiveQuiz(@Valid @RequestBody Quiz quiz, @AuthenticationPrincipal AppUserAdapter user) {
+        return quizService.saveQuiz(quiz, user.getUsername());
     }
 
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public String deleteQuiz(@PathVariable Long id) {
-        quizService.deleteQuiz(id);
-        return "Deleted";
+    public void deleteQuiz(@PathVariable Long id, @AuthenticationPrincipal AppUserAdapter user) {
+        quizService.deleteQuiz(id, user.getUsername());
     }
 }

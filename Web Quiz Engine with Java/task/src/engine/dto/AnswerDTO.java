@@ -1,10 +1,10 @@
-package engine.entity;
+package engine.dto;
 
-public class Answer {
+public class AnswerDTO {
     boolean success;
     String feedback;
 
-    public Answer(boolean success) {
+    public AnswerDTO(boolean success) {
         this.success = success;
         feedback = setFeedback();
     }

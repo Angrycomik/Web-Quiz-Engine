@@ -2,7 +2,7 @@ package engine.service;
 
 
 import engine.dto.QuizCompletionDTO;
-import engine.entity.Answer;
+import engine.dto.AnswerDTO;
 import engine.entity.AppUser;
 import engine.entity.Quiz;
 import engine.entity.QuizCompletion;
@@ -27,6 +27,8 @@ import java.util.Optional;
 public class QuizService {
     Logger logger = LoggerFactory.getLogger(QuizService.class);
 
+    private final int PAGE_SIZE = 10;
+
     QuizRepository quizRepository;
     QuizCompletionRepository completionRepo;
 
@@ -44,16 +46,16 @@ public class QuizService {
     }
 
     public Page<Quiz> getAllQuizes(int page){
-        PageRequest pageRequest = PageRequest.of(page, 10);
+        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
         return quizRepository.findAll(pageRequest);
     }
 
     public Page<QuizCompletionDTO> getCompletedQuizzes(int page, AppUser user) {
-        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by("completedAt").descending());
+        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE, Sort.by("completedAt").descending());
         return completionRepo.findAllByUser(user, pageRequest).map(i -> new QuizCompletionDTO(i.getQuiz().getId(),  i.getCompletedAt()));
     }
 
-    public Answer solveQuiz(Long quizId, List<Integer> correctAnswers, AppUser user) {
+    public AnswerDTO solveQuiz(Long quizId, List<Integer> correctAnswers, AppUser user) {
         Quiz quiz = getQuiz(quizId);
         boolean isCorrect = Utils.checkAnswer(quiz.getAnswer(), correctAnswers);
 
@@ -61,20 +63,20 @@ public class QuizService {
             QuizCompletion completion = new QuizCompletion(quiz, user, LocalDateTime.now());
             completionRepo.save(completion);
         }
-        return new Answer(isCorrect);
+        return new AnswerDTO(isCorrect);
     }
 
-    public Quiz saveQuiz(Quiz quiz){
+    public Quiz saveQuiz(Quiz quiz, String username) {
         logger.info("Saving Quiz: " + quiz.toString());
 
-        quiz.setMadeBy(UserService.getCurrentUsername());
+        quiz.setMadeBy(username);
         return quizRepository.save(quiz);
     }
 
-    public void deleteQuiz(Long id) {
+    public void deleteQuiz(Long id, String username) {
         Optional<Quiz> quiz = quizRepository.findById(id);
         if(quiz.isEmpty()){throw new NoSuchElementException();}
-        if(quiz.get().getMadeBy().equals(UserService.getCurrentUsername())){
+        if(quiz.get().getMadeBy().equals(username)){
             quizRepository.delete(quiz.get());
             return;
         }
