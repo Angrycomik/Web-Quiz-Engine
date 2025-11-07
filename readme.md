@@ -15,7 +15,16 @@ Application source code is located within the `Web Quiz Engine with Java/task/` 
     * Spring Boot Validation
 * **H2 Database**
 * **Gradle**
+* **SpringDoc (Swagger UI)**
+# API Documentation (Swagger UI)
 
+This project uses springdoc-openapi to provide live, interactive API documentation.
+
+Once the application is running, you can access the Swagger UI in your browser:
+
+http://localhost:8889/swagger-ui.html
+
+The documentation page allows you to explore all endpoints, view request/response models, and test the API directly from your browser.
 # API Endpoints
 
 #### `POST /api/register`
