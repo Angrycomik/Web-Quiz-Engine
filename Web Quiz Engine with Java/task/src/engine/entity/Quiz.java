@@ -1,6 +1,7 @@
 package engine.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,27 +13,34 @@ import java.util.List;
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     Long id;
 
     @NotBlank
+    @Schema(description = "Title of the quiz.", example = "Java Basics Quiz")
     String title;
 
     @NotBlank
+    @Schema(description = "The question text for the quiz.", example = "What is the purpose of the JVM?")
     String text;
 
     @NotNull
     @Size(min = 2)
     @ElementCollection(fetch = FetchType.EAGER)
+    @Schema(description = "A list of at least two possible answers.", example = "[\"To compile Java code\", \"To run Java bytecode\", \"To debug code\"]")
     List<String> options;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(description = "A list of correct answers.", example = "[1]")
     List<Integer> answer;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(description = "The username of the user who created the quiz.", hidden = true)
     private String madeBy;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(description = "Internal list of completions.", hidden = true)
     private List<QuizCompletion> completions;
 
     public String getMadeBy() {

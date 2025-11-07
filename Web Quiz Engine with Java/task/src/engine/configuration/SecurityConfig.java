@@ -13,12 +13,20 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        final String[] SWAGGER_PATHS = {
+                "/swagger-ui.html",
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/webjars/swagger-ui/**"
+        };
+
         http
                 .httpBasic(Customizer.withDefaults())     // Default Basic auth config
                 .csrf(configurer -> configurer.disable()) // for POST requests via Postman
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/actuator/shutdown").permitAll()
+                        .requestMatchers(SWAGGER_PATHS).permitAll()
                         .anyRequest().authenticated()
                 );
 
