@@ -1,6 +1,6 @@
 # Web Quiz Engine
 
-This project is a multi-user web service for creating and solving quizzes, built as a project for **JetBrains Academy (Hyperskill)**.
+This project is a multi-user web service for creating and solving quizzes, built as part of the "Java Backend Developer (Spring Boot)" course on JetBrains Academy (Hyperskill).
 
 It provides a REST API for user registration, quiz creation, and quiz solving. It uses **Spring Boot, Spring Security** for authentication, and **Spring Data JPA** for database persistence.
 
